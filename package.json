@@ -1,0 +1,64 @@
+{
+  "name": "rabisco",
+  "version": "0.1.0",
+  "description": "Anotação sobre a tela para aulas e apresentações",
+  "main": "src/main.js",
+  "author": "Conversão Extrema",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/webconversaoextrema/rabisco.git"
+  },
+  "scripts": {
+    "start": "electron .",
+    "dist:win": "electron-builder --win --publish never",
+    "dist:mac": "electron-builder --mac --publish never"
+  },
+  "build": {
+    "appId": "br.com.rabisco.app",
+    "productName": "Rabisco",
+    "icon": "src/assets/icon.png",
+    "files": [
+      "src/**/*"
+    ],
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "artifactName": "Rabisco-${version}-windows-instalador.exe"
+    },
+    "portable": {
+      "artifactName": "Rabisco-${version}-windows-portatil.exe"
+    },
+    "mac": {
+      "category": "public.app-category.education",
+      "identity": "-",
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "universal"
+          ]
+        }
+      ],
+      "extendInfo": {
+        "NSScreenCaptureUsageDescription": "O Rabisco precisa gravar a tela para salvar capturas com suas anotações."
+      }
+    },
+    "dmg": {
+      "artifactName": "Rabisco-${version}-mac.dmg"
+    }
+  },
+  "devDependencies": {
+    "electron": "^44.4.5",
+    "electron-builder": "^26.15.3"
+  }
+}

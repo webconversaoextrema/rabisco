@@ -1,0 +1,166 @@
+:root {
+  --panel: #1c1e24;
+  --btn-hover: rgba(255, 255, 255, 0.1);
+  --btn-active: #3d7cf4;
+  --icon: #e8eaef;
+  --muted: rgba(255, 255, 255, 0.18);
+}
+
+html, body {
+  margin: 0;
+  background: transparent;
+  overflow: hidden;
+  user-select: none;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+#panel {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px 8px;
+  border-radius: 14px;
+  background: var(--panel);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.handle {
+  width: 100%;
+  height: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: grab;
+  -webkit-app-region: drag;
+}
+
+.handle svg {
+  width: 24px;
+  height: 8px;
+  fill: rgba(255, 255, 255, 0.45);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 38px);
+  gap: 4px;
+}
+
+button {
+  -webkit-app-region: no-drag;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--icon);
+  cursor: pointer;
+}
+
+button:hover { background: var(--btn-hover); }
+button.active { background: var(--btn-active); color: #fff; }
+button.danger:hover { background: #d93a3a; }
+
+button svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+button[data-cmd="board"][data-bg="white"] svg rect { fill: #fff; }
+button[data-cmd="board"][data-bg="black"] svg rect { fill: #1f2b24; stroke: #9ccc65; }
+
+.sep {
+  width: 100%;
+  height: 1px;
+  background: var(--muted);
+}
+
+.colors {
+  display: grid;
+  grid-template-columns: repeat(4, 18px);
+  gap: 5px;
+}
+
+.colors button {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+}
+
+.colors button:hover { transform: scale(1.12); }
+.colors button.active { outline: 2px solid #fff; outline-offset: 2px; }
+
+.targets {
+  display: grid;
+  grid-template-columns: repeat(2, 38px);
+  gap: 4px;
+}
+
+.targets button { height: 28px; }
+
+.swatch {
+  display: block;
+  width: 16px;
+  height: 16px;
+  box-sizing: border-box;
+  border-radius: 4px;
+}
+
+.swatch.ring {
+  border: 4px solid;
+  background: transparent !important;
+}
+
+/* Sem preenchimento: quadrado branco cortado por uma diagonal vermelha. */
+.swatch.none {
+  background: linear-gradient(to top right, transparent 43%, #e53935 43% 57%, transparent 57%), #fff !important;
+}
+
+.opacities {
+  display: grid;
+  grid-template-columns: repeat(4, 18px);
+  gap: 5px;
+}
+
+.opacities button {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+}
+
+.opacities .swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+}
+
+.opacities button.active { outline: 2px solid #fff; outline-offset: 1px; }
+
+.sizes {
+  display: grid;
+  grid-template-columns: repeat(4, 18px);
+  gap: 5px;
+}
+
+.sizes button {
+  width: 18px;
+  height: 22px;
+  border-radius: 5px;
+}
+
+.sizes button span {
+  display: block;
+  border-radius: 50%;
+  background: currentColor;
+}

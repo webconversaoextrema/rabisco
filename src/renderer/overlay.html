@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'">
+  <title>Rabisco</title>
+  <link rel="stylesheet" href="overlay.css">
+</head>
+<body>
+  <canvas id="board"></canvas>
+  <canvas id="live"></canvas>
+  <div id="shot" hidden>
+    <img id="shot-img" alt="">
+    <canvas id="shot-mask"></canvas>
+    <div id="shot-hint"></div>
+  </div>
+  <div id="flash"></div>
+  <div id="toast" role="status"></div>
+  <script src="shared.js"></script>
+  <script src="overlay.js"></script>
+</body>
+</html>
