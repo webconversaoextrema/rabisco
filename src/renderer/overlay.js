@@ -1,5 +1,5 @@
 const api = window.rabisco;
-const { COLORS, SIZES } = window.RABISCO;
+const { COLORS, SIZES, TEXT_SIZES } = window.RABISCO;
 
 const board = document.getElementById('board'); // traços finalizados
 const live = document.getElementById('live'); // traço em andamento e cursor da borracha
@@ -23,7 +23,6 @@ let editor = null; // caixa de texto aberta
 // ---------- Tamanhos ----------
 
 const highlightWidth = (size) => size * 3 + 10;
-const textSize = (size) => Math.round(size * 2.5 + 14);
 const eraserRadius = () => Math.max(8, state.size * 2.5);
 const font = (px) => `600 ${px}px system-ui, -apple-system, "Segoe UI", sans-serif`;
 
@@ -313,51 +312,76 @@ function clearAll() {
 
 // ---------- Texto ----------
 
+const TEXT_PLACEHOLDER = 'Digite aqui…';
+
+// Caixa de texto: Enter pula linha; conclui com clique fora, Esc, Ctrl+Enter ou o botão ✓.
 function openText(p) {
-  const fontSize = textSize(state.size);
   const ta = document.createElement('textarea');
   ta.className = 'text-editor';
   ta.spellcheck = false;
   ta.rows = 1;
-  Object.assign(ta.style, {
-    left: `${p.x}px`,
-    top: `${p.y}px`,
-    font: font(fontSize),
-    lineHeight: '1.25',
-    color: state.color,
-    opacity: state.opacity || 1,
-  });
-  const fit = () => {
-    bctx.save();
-    bctx.font = font(fontSize);
-    const width = Math.max(...ta.value.split('\n').map((l) => bctx.measureText(l).width));
-    bctx.restore();
-    ta.style.width = `${Math.max(fontSize, width + fontSize)}px`;
-    ta.style.height = 'auto';
-    ta.style.height = `${ta.scrollHeight}px`;
-  };
-  ta.addEventListener('input', fit);
+  ta.placeholder = TEXT_PLACEHOLDER;
+  Object.assign(ta.style, { left: `${p.x}px`, top: `${p.y}px` });
+
+  const done = document.createElement('button');
+  done.className = 'text-done';
+  done.textContent = '✓ Concluir';
+  done.title = 'Concluir texto (Esc, Ctrl+Enter ou clique fora)';
+  // Não deixa o clique no botão tirar o foco da caixa antes de concluir.
+  done.addEventListener('pointerdown', (e) => e.preventDefault());
+  done.addEventListener('click', () => commitText());
+
+  ta.addEventListener('input', () => editor?.fit());
   ta.addEventListener('keydown', (e) => {
     e.stopPropagation();
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === 'Escape' || (e.key === 'Enter' && (e.ctrlKey || e.metaKey))) {
       e.preventDefault();
       commitText();
-    } else if (e.key === 'Escape') {
-      cancelText();
     }
   });
   ta.addEventListener('blur', () => commitText());
-  document.body.appendChild(ta);
-  editor = { ta, x: p.x, y: p.y, fontSize, color: state.color, opacity: state.opacity || 1 };
-  fit();
+  document.body.append(ta, done);
+
+  editor = { ta, done, x: p.x, y: p.y, fit: null };
+  editor.fit = () => {
+    const { fontSize } = editor;
+    bctx.save();
+    bctx.font = font(fontSize);
+    const lines = ta.value ? ta.value.split('\n') : [TEXT_PLACEHOLDER];
+    const width = Math.max(...lines.map((l) => bctx.measureText(l).width));
+    bctx.restore();
+    const w = Math.max(fontSize, width + fontSize);
+    ta.style.width = `${w}px`;
+    ta.style.height = 'auto';
+    ta.style.height = `${ta.scrollHeight}px`;
+    done.style.left = `${p.x + w + 8}px`;
+    done.style.top = `${p.y}px`;
+  };
+  styleText();
   requestAnimationFrame(() => ta.focus());
+}
+
+// Aplica tamanho, cor e opacidade atuais à caixa aberta (mudar na barra afeta o texto em edição).
+function styleText() {
+  if (!editor) return;
+  editor.fontSize = TEXT_SIZES[state.textSize] || TEXT_SIZES.medium;
+  editor.color = state.color;
+  editor.opacity = state.opacity || 1;
+  Object.assign(editor.ta.style, {
+    font: font(editor.fontSize),
+    lineHeight: '1.25',
+    color: editor.color,
+    opacity: editor.opacity,
+  });
+  editor.fit();
 }
 
 function commitText() {
   if (!editor) return;
-  const { ta, x, y, fontSize, color, opacity } = editor;
+  const { ta, done, x, y, fontSize, color, opacity } = editor;
   editor = null;
   ta.remove();
+  done.remove();
   const text = ta.value.replace(/\s+$/, '');
   if (!text.trim()) return;
   const lines = text.split('\n');
@@ -372,9 +396,10 @@ function commitText() {
 
 function cancelText() {
   if (!editor) return;
-  const { ta } = editor;
+  const { ta, done } = editor;
   editor = null;
   ta.remove();
+  done.remove();
 }
 
 // ---------- Ponteiro ----------
@@ -505,7 +530,11 @@ window.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') api.setState({ drawing: false });
   else if (TOOL_KEYS[key]) api.setState({ tool: TOOL_KEYS[key] });
   else if (/^[1-8]$/.test(e.key)) api.setState({ color: COLORS[Number(e.key) - 1] });
-  else if (e.key === '[' || e.key === ']') {
+  else if ((e.key === '[' || e.key === ']') && state.tool === 'text') {
+    const keys = Object.keys(TEXT_SIZES);
+    const i = keys.indexOf(state.textSize);
+    api.setState({ textSize: keys[Math.max(0, Math.min(keys.length - 1, i + (e.key === ']' ? 1 : -1)))] });
+  } else if (e.key === '[' || e.key === ']') {
     const i = SIZES.indexOf(state.size);
     const next = Math.max(0, Math.min(SIZES.length - 1, (i < 0 ? 1 : i) + (e.key === ']' ? 1 : -1)));
     api.setState({ size: SIZES[next] });
@@ -662,8 +691,12 @@ api.on('state', (next) => {
   document.body.classList.toggle('drawing', state.drawing);
   document.body.dataset.tool = state.tool;
   document.body.dataset.bg = state.background;
-  if (!state.drawing) {
+  if (!state.drawing || state.tool !== 'text') {
     commitText();
+  } else {
+    styleText();
+  }
+  if (!state.drawing) {
     finishStroke();
     clearLive();
   } else if (state.tool !== 'eraser' && !current) {

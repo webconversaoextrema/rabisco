@@ -17,6 +17,7 @@ const state = {
   tool: 'pen',
   color: '#e53935',
   size: 4,
+  textSize: 'medium', // small | medium | large
   opacity: 1,
   fillColor: '#1e88e5',
   fillOpacity: 0, // 0 = formas sem preenchimento

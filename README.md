@@ -36,9 +36,9 @@ No Mac, use `Cmd` no lugar de `Ctrl`.
 | `E` | Borracha (apaga o traço inteiro) |
 | `L` / `A` | Linha / seta |
 | `R` / `O` | Retângulo / elipse |
-| `T` | Texto (`Enter` confirma, `Shift+Enter` quebra linha) |
+| `T` | Texto (`Enter` pula linha; `Esc`, `Ctrl+Enter`, o botão **✓ Concluir** ou um clique fora concluem) |
 | `1` a `8` | Cores |
-| `[` e `]` | Diminui / aumenta a espessura |
+| `[` e `]` | Diminui / aumenta a espessura (com o texto: tamanho P / M / G) |
 | `W` / `B` | Quadro branco / quadro negro |
 | `Ctrl+Z` / `Ctrl+Y` | Desfazer / refazer |
 | `Ctrl+C` | Copiar print (com seleção de área) |
@@ -47,6 +47,8 @@ No Mac, use `Cmd` no lugar de `Ctrl`.
 | `Shift` segurado | Linhas em 45°, quadrados e círculos |
 
 Em mesas digitalizadoras, a caneta respeita a pressão e a ponta traseira funciona como borracha.
+
+Com a ferramenta de texto selecionada, a linha de espessura da barra vira os tamanhos **P**, **M** e **G**. Mudar tamanho ou cor enquanto digita já altera o texto que está sendo escrito.
 
 ### Cores, contorno e preenchimento
 

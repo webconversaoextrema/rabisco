@@ -159,6 +159,15 @@ button[data-cmd="board"][data-bg="black"] svg rect { fill: #1f2b24; stroke: #9cc
   border-radius: 5px;
 }
 
+.sizes.text { grid-template-columns: repeat(3, 26px); }
+
+.sizes.text button {
+  width: 26px;
+  font-weight: 700;
+  font-family: inherit;
+  line-height: 1;
+}
+
 .sizes button span {
   display: block;
   border-radius: 50%;

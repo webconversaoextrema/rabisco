@@ -28,16 +28,41 @@ COLORS.forEach((color, i) => {
 });
 
 const sizesEl = document.getElementById('sizes');
-SIZES.forEach((size) => {
-  const b = document.createElement('button');
-  b.dataset.size = size;
-  b.title = 'Espessura ([ e ] alteram)';
-  const dot = document.createElement('span');
-  const d = Math.min(16, size + 2);
-  dot.style.width = dot.style.height = `${d}px`;
-  b.appendChild(dot);
-  sizesEl.appendChild(b);
-});
+const TEXT_SIZE_LABELS = [
+  ['small', 'P', 'pequeno', 10],
+  ['medium', 'M', 'médio', 13],
+  ['large', 'G', 'grande', 17],
+];
+
+// Com a ferramenta de texto, a linha de espessura vira tamanhos de texto P / M / G.
+function renderSizes() {
+  sizesEl.replaceChildren();
+  const isText = state.tool === 'text';
+  sizesEl.classList.toggle('text', isText);
+  if (isText) {
+    for (const [key, label, name, px] of TEXT_SIZE_LABELS) {
+      const b = document.createElement('button');
+      b.dataset.textSize = key;
+      b.title = `Texto ${name} ([ e ] alteram)`;
+      b.textContent = label;
+      b.style.fontSize = `${px}px`;
+      b.classList.toggle('active', state.textSize === key);
+      sizesEl.appendChild(b);
+    }
+    return;
+  }
+  for (const size of SIZES) {
+    const b = document.createElement('button');
+    b.dataset.size = size;
+    b.title = 'Espessura ([ e ] alteram)';
+    b.style.color = state.color;
+    b.classList.toggle('active', size === state.size);
+    const dot = document.createElement('span');
+    dot.style.width = dot.style.height = `${Math.min(16, size + 2)}px`;
+    b.appendChild(dot);
+    sizesEl.appendChild(b);
+  }
+}
 
 const opacitiesEl = document.getElementById('opacities');
 const strokeSwatch = document.getElementById('stroke-swatch');
@@ -65,6 +90,7 @@ document.addEventListener('click', (e) => {
   } else if (tool === 'mouse') api.setState({ drawing: false });
   else if (tool) api.setState({ tool });
   else if (size) api.setState({ size: Number(size) });
+  else if (b.dataset.textSize) api.setState({ textSize: b.dataset.textSize });
   else if (cmd === 'board') api.setState({ background: BOARD_CYCLE[state.background] });
   else if (cmd) api.command(cmd);
 });
@@ -105,10 +131,7 @@ function render() {
   });
   renderOpacities(color, opacity);
 
-  document.querySelectorAll('[data-size]').forEach((b) => {
-    b.classList.toggle('active', Number(b.dataset.size) === state.size);
-    b.style.color = state.color;
-  });
+  renderSizes();
 
   const board = document.querySelector('[data-cmd="board"]');
   board.dataset.bg = state.background;
