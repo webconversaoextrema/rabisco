@@ -1,9 +1,9 @@
-﻿{
+{
   "name": "rabisco",
-  "version": "0.1.1",
-  "description": "AnotaÃ§Ã£o sobre a tela para aulas e apresentaÃ§Ãµes",
+  "version": "0.1.2",
+  "description": "Anotação sobre a tela para aulas e apresentações",
   "main": "src/main.js",
-  "author": "ConversÃ£o Extrema",
+  "author": "Conversão Extrema",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -50,7 +50,7 @@
         }
       ],
       "extendInfo": {
-        "NSScreenCaptureUsageDescription": "O Rabisco precisa gravar a tela para salvar capturas com suas anotaÃ§Ãµes."
+        "NSScreenCaptureUsageDescription": "O Rabisco precisa gravar a tela para salvar capturas com suas anotações."
       }
     },
     "dmg": {
