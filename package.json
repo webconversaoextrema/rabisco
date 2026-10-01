@@ -1,6 +1,6 @@
 {
   "name": "rabisco",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Anotação sobre a tela para aulas e apresentações",
   "main": "src/main.js",
   "author": "Conversão Extrema",

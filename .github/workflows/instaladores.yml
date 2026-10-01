@@ -50,6 +50,8 @@ jobs:
         with:
           path: dist
           merge-multiple: true
+      - name: Empacotar extensão do Chrome
+        run: cd extensao-chrome && zip -r "../dist/Rabisco-extensao-chrome-${GITHUB_REF_NAME#v}.zip" .
       - name: Publicar release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

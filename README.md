@@ -1,6 +1,6 @@
 # Rabisco
 
-Anote e desenhe por cima de qualquer programa: slides, navegador, PDF, vídeo. Funciona no Windows e no macOS.
+Anote e desenhe por cima de qualquer programa: slides, navegador, PDF, vídeo. Funciona no Windows e no macOS, e também como [extensão do Chrome](#extensão-do-chrome) para anotar páginas web.
 
 **[⬇ Baixar a versão mais recente](https://github.com/webconversaoextrema/rabisco/releases/latest)**. Veja em [Instalação](#instalação) qual arquivo escolher.
 
@@ -81,6 +81,39 @@ Baixe na página de [versões](https://github.com/webconversaoextrema/rabisco/re
 **Windows:** o app não é assinado digitalmente, então o Windows pode mostrar "O Windows protegeu o computador". Nesse caso, clique em **Mais informações → Executar assim mesmo**.
 
 **macOS:** abra o `.dmg` e arraste o Rabisco para **Aplicativos**. Como o app não é notarizado pela Apple, na primeira vez o macOS avisa que não pode verificá-lo. Vá em **Ajustes do Sistema → Privacidade e Segurança**, role até o aviso do Rabisco e clique em **Abrir Mesmo Assim**. Para os prints funcionarem, libere o Rabisco em **Privacidade e Segurança → Gravação de Tela**.
+
+## Extensão do Chrome
+
+Para aulas no navegador, o Rabisco também existe como extensão do Chrome, na pasta [`extensao-chrome/`](extensao-chrome). Ela tem as mesmas ferramentas do app, mas só desenha sobre páginas web.
+
+**Instalar:**
+
+1. Baixe o `Rabisco-extensao-chrome-x.y.z.zip` em [versões](https://github.com/webconversaoextrema/rabisco/releases/latest) e descompacte numa pasta que não vá ser apagada.
+2. Abra `chrome://extensions` e ative o **Modo do desenvolvedor**, no canto superior direito.
+3. Clique em **Carregar sem compactação** e escolha a pasta.
+4. Clique no quebra-cabeça 🧩 da barra do Chrome e fixe o Rabisco.
+
+**Usar:**
+
+| Ação | Como |
+|---|---|
+| Abrir/fechar o Rabisco na aba | Clique no ícone do Rabisco ou `Alt+Shift+R` |
+| Alternar desenho/mouse | `Alt+Shift+D`, `Esc` ou o botão de seta |
+| Demais atalhos | Os mesmos do app (P, H, E, T, `Ctrl+Z`, `Ctrl+C`…) |
+
+Diferenças em relação ao app:
+
+- **Os desenhos acompanham a rolagem da página.** Um círculo num título sobe junto com ele.
+- **No modo desenho, a roda do mouse continua rolando a página.**
+- **O Rabisco funciona na aba em que foi aberto** e some ao recarregar ou mudar de página.
+- **O Chrome não permite extensões nas próprias páginas internas**, como `chrome://`, nova aba e Chrome Web Store. Nelas, o ícone mostra um ✕ vermelho.
+- **Sites com rolagem dentro de um quadro interno**, como alguns painéis e o Gmail, não movem os desenhos junto.
+- **Alguns poucos sites bloqueiam copiar imagens.** Nesses, use o botão de salvar.
+- Os atalhos podem ser trocados em `chrome://extensions/shortcuts`.
+
+A extensão só acessa a aba em que você ativa o Rabisco, então a instalação não pede acesso a todos os sites.
+
+**Publicar na Chrome Web Store** (opcional, elimina o modo do desenvolvedor e atualiza sozinha): crie uma conta em [chrome.google.com/webstore/devconsole](https://chrome.google.com/webstore/devconsole) (taxa única de US$ 5), envie o mesmo `.zip` e preencha a descrição e as imagens. A revisão do Google leva de alguns dias a algumas semanas.
 
 ## Desenvolvimento
 
