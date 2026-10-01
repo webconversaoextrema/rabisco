@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Rabisco — anotar páginas",
   "short_name": "Rabisco",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Desenhe, destaque e escreva por cima de qualquer página. Feito para aulas e análises de sites.",
   "icons": {
     "16": "icons/icon-16.png",

@@ -145,6 +145,8 @@
     }
     .text-editor::placeholder { color: inherit; opacity: 0.45; }
     .text-done {
+      /* Sobrescreve o tamanho fixo dos botões da barra (regra "button" abaixo). */
+      width: auto; height: auto; display: block; line-height: normal;
       position: fixed; padding: 5px 10px; border: none; border-radius: 8px;
       background: #3d7cf4; color: #fff; font: 600 13px system-ui, -apple-system, "Segoe UI", sans-serif;
       white-space: nowrap; cursor: pointer; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); pointer-events: auto;
